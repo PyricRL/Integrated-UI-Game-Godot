@@ -130,6 +130,7 @@ func _physics_process(delta):
 		
 		standing_collision_shape.disabled = false
 		crouching_collision_shape.disabled = true
+		print("standing")
 		
 		head.position.y = lerp(head.position.y, 1.8, delta * 7.0)
 		
