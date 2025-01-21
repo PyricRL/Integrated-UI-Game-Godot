@@ -26,6 +26,7 @@ var crouching_depth = 0.4
 # Sliding Variables
 var slide_speed = 10.0
 var slide_vector = Vector2.ZERO
+var slide_direction = Vector2.ZERO
 
 # FOV Variables
 const BASE_FOV = 75.0
@@ -115,6 +116,7 @@ func sprinting(delta):
 		change_state(states.SLIDING)
 		slide_timer.start()
 		slide_vector = input_dir
+		slide_direction = head.transform.basis
 		
 	# Sprinting Code
 	
@@ -167,13 +169,15 @@ func sliding(delta):
 	# Handle Sliding State Changes
 	
 	if Input.is_action_just_pressed("jump") and player.is_on_floor() and not ray_cast.is_colliding():
-		change_state(states.SPRINTING)
 		player.velocity.y = JUMP_VELOCITY
+		change_state(states.SPRINTING)
 
 	# Sliding Code
 	
 	print("Sliding")
-	direction = (head.transform.basis * Vector3(slide_vector.x, 0, slide_vector.y)).normalized()
+	direction = (slide_direction * Vector3(slide_vector.x, 0, slide_vector.y)).normalized()
+	print(slide_direction)
+	print(str(slide_vector) + " ---- " + str(direction))
 	
 	standing_collision_shape.disabled = true
 	crouching_collision_shape.disabled = false
