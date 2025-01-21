@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://chcufj24u8mew"]
+[gd_scene load_steps=6 format=3 uid="uid://chcufj24u8mew"]
 
-[ext_resource type="Script" path="res://Entity Scenes/Player/player_script.gd" id="1_p3syl"]
+[ext_resource type="Script" path="res://Entity Scenes/Player/Scripts/player_script.gd" id="1_p3syl"]
+[ext_resource type="Script" path="res://Entity Scenes/Player/Scripts/state_machine.gd" id="2_mnimq"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_tmgr5"]
 
@@ -27,10 +28,10 @@ disabled = true
 
 [node name="Head" type="Node3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.50687, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.162036, -0.419374)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.467085)
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 target_position = Vector3(0, 2, 0)
@@ -39,4 +40,10 @@ target_position = Vector3(0, 2, 0)
 wait_time = 0.2
 one_shot = true
 
-[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]
+[node name="SlideTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_mnimq")
+
+[connection signal="timeout" from="SlideTimer" to="StateMachine" method="_on_slide_timer_timeout"]

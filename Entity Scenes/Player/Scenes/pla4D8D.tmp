@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://chcufj24u8mew"]
+
+[ext_resource type="Script" path="res://Entity Scenes/Player/Scripts/player_script.gd" id="1_p3syl"]
+[ext_resource type="Script" path="res://Entity Scenes/Player/Scripts/state_machine.gd" id="2_mnimq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_tmgr5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4ag4o"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vd0o3"]
+height = 1.0
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_p3syl")
+
+[node name="StandingMeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_tmgr5")
+
+[node name="StandingCollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_4ag4o")
+
+[node name="CrouchingCollisionShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_vd0o3")
+disabled = true
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.467085)
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 2, 0)
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="SlideTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("2_mnimq")
+
+[connection signal="timeout" from="SlideTimer" to="StateMachine" method="_on_slide_timer_timeout"]
