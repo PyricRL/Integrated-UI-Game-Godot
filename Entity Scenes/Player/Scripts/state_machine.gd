@@ -9,10 +9,9 @@ extends Node
 @onready var sprint_timer = $"../SprintTimer"
 @onready var slide_timer = $"../SlideTimer"
 
-var gravity = 10.5
 var direction = Vector3.ZERO
 var input_dir = Vector2.ZERO
-const JUMP_VELOCITY = 7
+const JUMP_VELOCITY = 5.5
 
 # Speed Variables
 const SPRINT_SPEED = 12.0
@@ -66,9 +65,6 @@ func _physics_process(delta):
 			
 	input_dir = Input.get_vector("left", "right", "forward", "backward")
 	direction = (head.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	if not player.is_on_floor():
-		player.velocity.y -= gravity * delta
 
 
 func walking(delta):
@@ -176,8 +172,6 @@ func sliding(delta):
 	
 	print("Sliding")
 	direction = (slide_direction * Vector3(slide_vector.x, 0, slide_vector.y)).normalized()
-	print(slide_direction)
-	print(str(slide_vector) + " ---- " + str(direction))
 	
 	standing_collision_shape.disabled = true
 	crouching_collision_shape.disabled = false
