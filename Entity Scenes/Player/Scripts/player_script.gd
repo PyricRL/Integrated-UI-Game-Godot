@@ -8,16 +8,13 @@ extends CharacterBody3D
 const SENSITIVITY = 0.003
 var gravity = 10.5
 
-# Window Size: 304/177
-# Stretch Mode: Viewport
-
 # Head Bob Variables
 const BOB_FREQUENCY = 1.0
 const BOB_AMPLITUDE = 0.15
 var bob_time = 0.0
 
 # Strafe Variables
-const STRAFE_ANGLE = 2.5
+const STRAFE_ANGLE = 3
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
